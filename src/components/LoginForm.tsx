@@ -1,6 +1,6 @@
 'use client'
 
-import React, { MouseEvent } from 'react'
+import React, { MouseEvent, useState } from 'react'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
 import { Label } from './ui/label'
@@ -9,8 +9,13 @@ import { IconBrandGithub, IconSpiral } from '@tabler/icons-react'
 
 export default function LoginForm() {
     const [isLoading, setIsLoading] = React.useState<boolean>(false)
+    const [name, setName] = useState<string>("")
+    const [email, setEmail] = useState<string>("")
+    const [password, setPassword] = useState<string>("")
 
     const onLogin = async (e: MouseEvent<HTMLButtonElement>) => {
+        console.log(email, password);
+        
         setIsLoading(true)
 
         setTimeout(() => {
@@ -32,6 +37,8 @@ export default function LoginForm() {
                             autoCapitalize="none"
                             autoComplete="email"
                             autoCorrect="off"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                             disabled={isLoading}
                         />
                     </div>
@@ -42,6 +49,8 @@ export default function LoginForm() {
                         <Input
                             placeholder="password"
                             type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
                             disabled={isLoading}
                         />
                     </div>

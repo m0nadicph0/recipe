@@ -1,16 +1,20 @@
 'use client'
 
-import React, { MouseEvent } from 'react'
+import React, { MouseEvent, useState } from 'react'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
 import { Label } from './ui/label'
-import { cn } from '@/lib/utils'
 import { IconBrandGithub, IconSpiral } from '@tabler/icons-react'
 
 export default function RegisterForm() {
-    const [isLoading, setIsLoading] = React.useState<boolean>(false)
+    const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [name, setName] = useState<string>("")
+    const [email, setEmail] = useState<string>("")
+    const [password, setPassword] = useState<string>("")
 
     const onLogin = async (e: MouseEvent<HTMLButtonElement>) => {
+        console.log(name, email, password);
+        
         setIsLoading(true)
 
         setTimeout(() => {
@@ -33,6 +37,8 @@ export default function RegisterForm() {
                             autoComplete="email"
                             autoCorrect="off"
                             disabled={isLoading}
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                         />
                     </div>
 
@@ -46,7 +52,9 @@ export default function RegisterForm() {
                             autoCapitalize="none"
                             autoComplete="email"
                             autoCorrect="off"
+                            value={name}
                             disabled={isLoading}
+                            onChange={(e) => setName(e.target.value)}
                         />
                     </div>
 
@@ -58,7 +66,9 @@ export default function RegisterForm() {
                         <Input
                             placeholder="password"
                             type="password"
+                            value={password}
                             disabled={isLoading}
+                            onChange={(e) => setPassword(e.target.value)}
                         />
                     </div>
                     <Button disabled={isLoading} onClick={onLogin}>
