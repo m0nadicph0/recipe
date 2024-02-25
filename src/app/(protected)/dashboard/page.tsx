@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
 import React from 'react'
+import { useAuthContext } from '@/hooks/useAuthContext'
 
 interface Recipe {
   id: string,
@@ -15,25 +16,36 @@ interface Recipe {
   vegan: boolean,
 }
 
-async function getRecipes(): Promise<Recipe[]> {
-  const result = await fetch('http://localhost:4000/recipes')
+async function getRecipes(token: string): Promise<Recipe[]> {
+  const result = await fetch('http://localhost:4000/recipes', {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  })
+
   return result.json()
 }
 
 
 export default async function DashboardPage() {
-  const recipes = await getRecipes()
+  const { token, user } = useAuthContext()
+
+  if (!token) {
+    return
+  }
+
+  const recipes = await getRecipes(token)
 
   return (
     <main>
       <div className="grid grid-cols-3 gap-8">
-        {recipes.map(recipe => (
-         <Card key={recipe.id} className="flex flex-col justify-between">
+        {recipes && recipes.map(recipe => (
+          <Card key={recipe.id} className="flex flex-col justify-between">
             <CardHeader className="flex-row gap-4 items-center">
               <Avatar>
-                <AvatarImage src={`/img/${recipe.image}`}/>
+                <AvatarImage src={`/img/${recipe.image}`} />
                 <AvatarFallback>
-                  {recipe.title.slice(0,2)}
+                  {recipe.title.slice(0, 2)}
                 </AvatarFallback>
               </Avatar>
               <div>
@@ -48,7 +60,7 @@ export default async function DashboardPage() {
               <Button>View Recipe</Button>
               {recipe.vegan && <Badge variant="secondary">VEGAN</Badge>}
             </CardFooter>
-         </Card>
+          </Card>
         ))}
       </div>
     </main>
