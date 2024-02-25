@@ -6,21 +6,15 @@ import { Input } from './ui/input'
 import { Label } from './ui/label'
 import { cn } from '@/lib/utils'
 import { IconBrandGithub, IconSpiral } from '@tabler/icons-react'
+import { useLogin } from '@/hooks/useLogin'
 
 export default function LoginForm() {
-    const [isLoading, setIsLoading] = React.useState<boolean>(false)
-    const [name, setName] = useState<string>("")
     const [email, setEmail] = useState<string>("")
     const [password, setPassword] = useState<string>("")
+    const {login, isLoading, error} = useLogin()
 
-    const onLogin = async (e: MouseEvent<HTMLButtonElement>) => {
-        console.log(email, password);
-        
-        setIsLoading(true)
-
-        setTimeout(() => {
-            setIsLoading(false)
-        }, 3000)
+    const onLogin = async () => {
+        await login(email, password)
     }
 
     return (
