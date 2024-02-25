@@ -5,21 +5,19 @@ import { Button } from './ui/button'
 import { Input } from './ui/input'
 import { Label } from './ui/label'
 import { IconBrandGithub, IconSpiral } from '@tabler/icons-react'
+import { useRegister } from '@/hooks/useRegister'
 
 export default function RegisterForm() {
-    const [isLoading, setIsLoading] = useState<boolean>(false)
+    // const [isLoading, setIsLoading] = useState<boolean>(false)
     const [name, setName] = useState<string>("")
     const [email, setEmail] = useState<string>("")
     const [password, setPassword] = useState<string>("")
+    const {register, isLoading, error} = useRegister()
 
     const onLogin = async (e: MouseEvent<HTMLButtonElement>) => {
         console.log(name, email, password);
         
-        setIsLoading(true)
-
-        setTimeout(() => {
-            setIsLoading(false)
-        }, 3000)
+        await register(name, email, password)
     }
 
     return (

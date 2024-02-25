@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "mock": "npx json-server -p 4000 -w _data/db.json",
+    "mock": "npx json-server-auth -r _data/routes.json -p 4000 -w _data/db.json",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -32,7 +32,8 @@
     "concurrently": "^8.2.2",
     "eslint": "^8",
     "eslint-config-next": "14.1.0",
-    "json-server": "^1.0.0-alpha.23",
+    "json-server": "^0.17.4",
+    "json-server-auth": "^2.1.0",
     "postcss": "^8",
     "tailwindcss": "^3.3.0",
     "typescript": "^5"
