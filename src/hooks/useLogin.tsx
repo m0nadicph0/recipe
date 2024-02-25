@@ -7,6 +7,7 @@ import { AuthContextType } from "@/context/AuthContext"
 export const useLogin = () => {
     const [error, setError] = useState<string>("")
     const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [success, setSuccess] = useState<boolean>(false)
     const {dispatch} = useAuthContext()
 
     const login = async(email: string, password: string) => {
@@ -37,8 +38,9 @@ export const useLogin = () => {
                 user: json.user
             }})
             setIsLoading(false)
+            setSuccess(true)
         }
     }
 
-    return {login, isLoading, error}
+    return {login, isLoading, error, success}
 }

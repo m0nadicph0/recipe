@@ -1,24 +1,29 @@
 'use client'
 
-import React, { MouseEvent, useState } from 'react'
-import { Button } from './ui/button'
+import React, { MouseEvent, useEffect, useState } from 'react'
+import { Button } from '@/components/ui/button'
 import { Input } from './ui/input'
 import { Label } from './ui/label'
 import { IconBrandGithub, IconSpiral } from '@tabler/icons-react'
 import { useRegister } from '@/hooks/useRegister'
+import { useRouter } from 'next/navigation'
 
 export default function RegisterForm() {
-    // const [isLoading, setIsLoading] = useState<boolean>(false)
     const [name, setName] = useState<string>("")
     const [email, setEmail] = useState<string>("")
     const [password, setPassword] = useState<string>("")
-    const {register, isLoading, error} = useRegister()
+    const {register, isLoading, error, success} = useRegister()
+    const router = useRouter()
 
-    const onLogin = async (e: MouseEvent<HTMLButtonElement>) => {
-        console.log(name, email, password);
-        
+    const onLogin = async (e: MouseEvent<HTMLButtonElement>) => {        
         await register(name, email, password)
     }
+
+    useEffect( () => {
+        if (success) {
+            router.push('/dashboard')
+        }
+    }, [success])
 
     return (
         <div className="grid gap-6">
@@ -73,7 +78,7 @@ export default function RegisterForm() {
                         {isLoading && (
                             <IconSpiral className="mr-2 h-4 w-4 animate-spin" />
                         )}
-                        Sign In with Email
+                        Sign Up with Email
                     </Button>
                 </div>
             </form>

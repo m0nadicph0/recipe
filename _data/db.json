@@ -162,11 +162,5 @@
     }
   ],
   "users": [
-    {
-      "email": "bruce@wayne.inc",
-      "password": "$2a$10$l3nwpDdD/bajHdpsWfonTOg5Jv5IJK90PcAN0vl4fx4LLsL3Nd.UW",
-      "name": "Bruce Wayne",
-      "id": 1
-    }
   ]
 }

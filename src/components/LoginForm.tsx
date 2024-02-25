@@ -1,21 +1,29 @@
 'use client'
 
-import React, { MouseEvent, useState } from 'react'
+import React, { MouseEvent, useEffect, useState } from 'react'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
 import { Label } from './ui/label'
 import { cn } from '@/lib/utils'
 import { IconBrandGithub, IconSpiral } from '@tabler/icons-react'
 import { useLogin } from '@/hooks/useLogin'
+import { useRouter } from 'next/navigation'
 
 export default function LoginForm() {
     const [email, setEmail] = useState<string>("")
     const [password, setPassword] = useState<string>("")
-    const {login, isLoading, error} = useLogin()
+    const {login, isLoading, error, success} = useLogin()
+    const router = useRouter()
 
     const onLogin = async () => {
         await login(email, password)
     }
+
+    useEffect(() => {
+        if (success) {
+            router.push('/dashboard')
+        }
+    }, [success])
 
     return (
         <div className="grid gap-6">

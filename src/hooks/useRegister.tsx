@@ -7,6 +7,7 @@ import { AuthContextType } from "@/context/AuthContext"
 export const useRegister = () => {
     const [error, setError] = useState<string>("")
     const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [success, setSuccess] = useState<boolean>(false)
     const {dispatch} = useAuthContext()
 
     const register = async(name: string, email: string, password: string) => {
@@ -37,8 +38,9 @@ export const useRegister = () => {
                 user: json.user
             }})
             setIsLoading(false)
+            setSuccess(true)
         }
     }
 
-    return {register, isLoading, error}
+    return {register, isLoading, error, success}
 }

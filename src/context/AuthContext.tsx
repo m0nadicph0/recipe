@@ -1,5 +1,5 @@
 'use client'
-import { ReactNode, createContext, useReducer } from "react";
+import { ReactNode, createContext, useEffect, useReducer } from "react";
 
 interface User {
     id: number
@@ -10,38 +10,40 @@ interface User {
 export type AuthContextType = {
     user: User | null,
     token: string,
-}
-
-const initialState = {
-    user: null,
-    token: ""
-}
-
-export const AuthContext = createContext<{
-    state: AuthContextType,
     dispatch: React.Dispatch<any>
-}>({
-    state: initialState,
-    dispatch: () => {}
-})
+}
+
+
+
+export const AuthContext = createContext<AuthContextType|null>(null)
 
 export const authReducer = (state: any, action: any) => {
     switch (action.type) {
         case 'LOGIN':
-            return {auth: action.payload}
+            return action.payload
         case 'LOGOUT':
-            return {auth: null}
+            return null
         default:
             return state
     }
 }
 
 export const AuthContextProvider = ({children}:{children: ReactNode}) => {
-    const [state, dispatch] = useReducer(authReducer, initialState)
+    const [state, dispatch] = useReducer(authReducer, null)
     console.log('AuthContext state:', state);
+
+    useEffect(() => {
+        const item = localStorage.getItem('auth')
+        const auth = item ? JSON.parse(item) : null
+        console.log('payload', auth);
+        
+        if (auth) {
+            dispatch({type: 'LOGIN', payload: auth})
+        }
+    }, [])
     
     return (
-        <AuthContext.Provider value={{state, dispatch}}>
+        <AuthContext.Provider value={{...state, dispatch}}>
             {children}
         </AuthContext.Provider>
     )
